@@ -1,0 +1,10 @@
+node_modules
+dist
+.DS_Store
+*.log
+.vite
+# generated from node_modules by `npm install` (scripts/copy-ort.mjs)
+public/ort
+# public/models is committed so the deployed site works on its own
+test-results
+playwright-report
