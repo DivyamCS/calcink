@@ -19,7 +19,7 @@ A handwriting calculator that runs entirely in your browser. Write a calculation
 [![Tests](https://img.shields.io/badge/Tests-428_unit_·_63_browser-6E9F18?logo=vitest&logoColor=white)](#testing)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-**[Open the live demo →](https://calcink-gamma.vercel.app/)** &nbsp;·&nbsp; [mirror](https://software-dev-bootcamp-prince-4vuw.vercel.app/) &nbsp;·&nbsp; [repository](https://github.com/DivyamCS/Software_dev_bootcamp)
+**[Open the live demo →](https://calcink-five.vercel.app/)** &nbsp;·&nbsp; [mirror](https://software-dev-bootcamp-prince-4vuw.vercel.app/) &nbsp;·&nbsp; [repository](https://github.com/DivyamCS/Software_dev_bootcamp)
 
 [PS checklist](#problem-statement-checklist) · [Features](#features) · [Architecture](#architecture) · [The model](#the-model) · [Quick start](#quick-start) · [Usage](#usage) · [Testing](#testing) · [Limitations](#limitations) · [Credits](#credits-and-licences)
 
