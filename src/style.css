@@ -1,0 +1,491 @@
+/* CalcInk - a digital sheet of paper.
+   Warm paper, faint ruled lines, blue-black ink, a different pen colour for answers. */
+
+:root {
+  --paper: #fbf7ec;
+  --paper-edge: #efe6d2;
+  --rule: rgba(63, 105, 160, 0.16);
+  --margin: rgba(196, 72, 72, 0.28);
+  --ink: #1c2541;
+  --ink-soft: #55607f;
+  --ok: #0b6e4f;
+  --bad: #b3261e;
+  --busy: #b7791f;
+  --glass: rgba(255, 252, 244, 0.82);
+  --shadow: 0 6px 24px rgba(40, 32, 12, 0.14), 0 1px 3px rgba(40, 32, 12, 0.18);
+  --ui-font: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --hand-font: "Caveat", "Segoe Print", "Bradley Hand", "Chalkboard SE", "Marker Felt", "Comic Sans MS", cursive;
+  --line-height: 40px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: var(--paper-edge);
+  color: var(--ink);
+  font-family: var(--ui-font);
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+#app {
+  position: fixed;
+  inset: 0;
+}
+
+/* the page */
+
+#surface {
+  position: absolute;
+  inset: 0;
+  background-color: var(--paper);
+  background-image: linear-gradient(to bottom, transparent calc(var(--line-height) - 1px), var(--rule) calc(var(--line-height) - 1px));
+  background-size: 100% var(--line-height);
+  background-position: 0 calc(24px - var(--scroll-y, 0px));
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* paper styles (the toolbar's paper button sets data-paper) */
+#surface[data-paper="grid"] {
+  background-image:
+    linear-gradient(to bottom, transparent calc(var(--line-height) - 1px), var(--rule) calc(var(--line-height) - 1px)),
+    linear-gradient(to right, transparent calc(var(--line-height) - 1px), var(--rule) calc(var(--line-height) - 1px));
+  background-size: var(--line-height) var(--line-height);
+  background-position: calc(0px - var(--scroll-x, 0px)) calc(24px - var(--scroll-y, 0px));
+}
+#surface[data-paper="dots"] {
+  background-image: radial-gradient(circle at 1.5px 1.5px, rgba(63, 105, 160, 0.38) 1.4px, transparent 1.8px);
+  background-size: 28px 28px;
+  background-position: calc(10px - var(--scroll-x, 0px)) calc(22px - var(--scroll-y, 0px));
+}
+#surface[data-paper="plain"] {
+  background-image: none;
+}
+#surface[data-paper="grid"]::before,
+#surface[data-paper="dots"]::before,
+#surface[data-paper="plain"]::before {
+  display: none; /* the red margin belongs to lined notebook paper only */
+}
+
+/* a faint red margin line, like a school notebook */
+#surface::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(76px - var(--scroll-x, 0px));
+  width: 1px;
+  background: var(--margin);
+  pointer-events: none;
+}
+
+.ink-layer,
+.overlay-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+}
+
+.ink-layer {
+  touch-action: none;
+  cursor: crosshair;
+}
+
+.overlay-layer {
+  pointer-events: none;
+}
+
+.ink-surface[data-tool="stroke-eraser"] .ink-layer,
+.ink-surface[data-tool="pixel-eraser"] .ink-layer {
+  cursor: none;
+}
+
+.eraser-ring {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border: 1.5px solid rgba(28, 37, 65, 0.55);
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.eraser-ring[hidden] {
+  display: none;
+}
+
+/* toolbar */
+
+.toolbar {
+  position: absolute;
+  top: max(14px, env(safe-area-inset-top));
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(60, 50, 20, 0.12);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  z-index: 10;
+  max-width: calc(100vw - 16px);
+}
+
+.group {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.group + .group {
+  margin-left: 4px;
+  padding-left: 8px;
+  border-left: 1px solid rgba(60, 50, 20, 0.14);
+}
+
+.toolbar button {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 11px;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 120ms ease, transform 80ms ease, color 120ms ease;
+}
+
+.toolbar button svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.toolbar button:hover:not(:disabled) {
+  background: rgba(28, 37, 65, 0.08);
+}
+
+.toolbar button:active:not(:disabled) {
+  transform: scale(0.94);
+}
+
+.toolbar button[aria-pressed="true"] {
+  background: var(--ink);
+  color: #fdfaf0;
+}
+
+.toolbar button:disabled {
+  opacity: 0.32;
+  cursor: default;
+}
+
+.toolbar button:focus-visible,
+.toolbar input:focus-visible {
+  outline: 2px solid #2f6fed;
+  outline-offset: 2px;
+}
+
+.width {
+  gap: 10px;
+  padding: 0 6px;
+}
+
+.colors {
+  position: relative;
+}
+
+.color-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--pen, var(--ink));
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.7), 0 0 0 1px rgba(28, 37, 65, 0.25);
+}
+
+.palette {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: grid;
+  grid-template-columns: repeat(3, 36px);
+  gap: 6px;
+  padding: 8px;
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(60, 50, 20, 0.14);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  z-index: 30;
+}
+
+.palette[hidden] {
+  display: none;
+}
+
+.toolbar .palette button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--swatch);
+  box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.85);
+}
+
+.toolbar .palette button:hover:not(:disabled) {
+  background: var(--swatch);
+  transform: scale(1.06);
+}
+
+.papers {
+  grid-template-columns: repeat(2, 44px);
+}
+.toolbar .papers button {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background-color: #fbf7ec;
+  box-shadow: inset 0 0 0 1px rgba(28, 37, 65, 0.25);
+}
+.toolbar .papers button:hover:not(:disabled) {
+  background-color: #fbf7ec;
+}
+.toolbar .papers [data-paper="lines"] {
+  background-image: linear-gradient(to bottom, transparent 9px, rgba(63, 105, 160, 0.45) 9px, rgba(63, 105, 160, 0.45) 10px, transparent 10px);
+  background-size: 100% 10px;
+}
+.toolbar .papers [data-paper="grid"] {
+  background-image:
+    linear-gradient(to bottom, transparent 9px, rgba(63, 105, 160, 0.4) 9px, rgba(63, 105, 160, 0.4) 10px, transparent 10px),
+    linear-gradient(to right, transparent 9px, rgba(63, 105, 160, 0.4) 9px, rgba(63, 105, 160, 0.4) 10px, transparent 10px);
+  background-size: 10px 10px;
+}
+.toolbar .papers [data-paper="dots"] {
+  background-image: radial-gradient(circle at 2px 2px, rgba(63, 105, 160, 0.6) 1.3px, transparent 1.7px);
+  background-size: 9px 9px;
+}
+
+.toolbar .palette button[aria-checked="true"] {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.width-dot {
+  --size: 4px;
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+}
+
+.width-dot::after {
+  content: "";
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: var(--pen, var(--ink));
+  transition: width 90ms ease, height 90ms ease;
+}
+
+.toolbar input[type="range"] {
+  width: 96px;
+  accent-color: var(--ink);
+}
+
+/* hint */
+
+.hint {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+  color: var(--ink);
+}
+
+.hint[hidden] {
+  display: none;
+}
+
+.hint-eq {
+  font-family: var(--hand-font);
+  font-size: clamp(32px, 7vw, 72px);
+  opacity: 0.11;
+  letter-spacing: 0.04em;
+}
+
+.hint-sub {
+  margin-top: 10px;
+  font-size: 15px;
+  color: var(--ink-soft);
+  opacity: 0.75;
+}
+
+.hint-more {
+  margin-top: 6px;
+  padding: 0 16px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  opacity: 0.6;
+}
+
+.hint-eq {
+  font-weight: 600;
+}
+
+/* status */
+
+.status {
+  position: absolute;
+  left: max(14px, env(safe-area-inset-left));
+  bottom: max(14px, env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  max-width: calc(100vw - 28px);
+  /* no backdrop-filter: re-blurring the page on every status change caused long frames on 2-core machines */
+  background: rgba(253, 250, 241, 0.94);
+  border: 1px solid rgba(60, 50, 20, 0.12);
+  border-radius: 999px;
+  box-shadow: var(--shadow);
+  font-size: 13px;
+  color: var(--ink-soft);
+  pointer-events: none;
+  z-index: 10;
+  transition: opacity 150ms ease;
+}
+
+.status[data-covered="true"] {
+  opacity: 0.28;
+}
+
+.status #status-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dot {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--busy);
+}
+
+.dot[data-tone="ok"] {
+  background: var(--ok);
+}
+
+.dot[data-tone="bad"] {
+  background: var(--bad);
+}
+
+.dot[data-tone="busy"] {
+  animation: pulse 1.1s ease-in-out infinite;
+}
+
+/* stop the pulse while the pen is down (app.ts sets data-writing) so it doesn't cost frames mid-stroke */
+[data-writing] .dot[data-tone="busy"] {
+  animation-play-state: paused;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.35;
+    transform: scale(0.8);
+  }
+}
+
+@media (max-width: 560px) {
+  /* on phones the tool groups wrap onto a second row instead of being cut off */
+  .toolbar {
+    gap: 2px;
+    padding: 4px 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 2px;
+    width: max-content;
+  }
+  .group + .group {
+    border-left: 0;
+    margin-left: 2px;
+    padding-left: 2px;
+  }
+  .toolbar button {
+    width: 36px;
+    height: 36px;
+  }
+  .toolbar input[type="range"] {
+    width: 56px;
+  }
+  .width {
+    padding: 0 2px;
+    gap: 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dot[data-tone="busy"] {
+    animation: none;
+  }
+  .toolbar button,
+  .width-dot::after {
+    transition: none;
+  }
+}
+
+/* scrollbar of the page (the canvas scrolls itself; see InkCanvas) */
+.scroll-thumb {
+  position: absolute;
+  top: 0;
+  right: 4px;
+  width: 6px;
+  border-radius: 4px;
+  background: rgba(28, 37, 65, 0.22);
+  z-index: 5;
+  cursor: grab;
+  transition: width 120ms ease, background 120ms ease;
+}
+.scroll-thumb:hover,
+.scroll-thumb:active {
+  width: 10px;
+  background: rgba(28, 37, 65, 0.4);
+}
+.scroll-thumb[hidden],
+.scroll-thumb-x[hidden] {
+  display: none;
+}
+.scroll-thumb-x {
+  position: absolute;
+  left: 0;
+  bottom: 4px;
+  height: 6px;
+  border-radius: 4px;
+  background: rgba(28, 37, 65, 0.22);
+  z-index: 5;
+  pointer-events: none;
+}
