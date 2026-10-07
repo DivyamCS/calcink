@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#f3ecdc" />
+    <meta
+      name="description"
+      content="CalcInk: write a calculation by hand, end it with =, and the answer appears right next to it. Runs 100% on your device, even offline."
+    />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
+    <title>CalcInk</title>
+  </head>
+  <body>
+    <div id="app">
+      <header class="toolbar" role="toolbar" aria-label="Drawing tools">
+        <div class="group" role="group" aria-label="Tool">
+          <button type="button" data-tool="pen" aria-pressed="true" title="Pen (P)" aria-label="Pen">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.2-4.4L16.6 4.2a2 2 0 012.8 0l.4.4a2 2 0 010 2.8L8.4 18.8 4 20z" /><path d="M14.5 6.3l3.2 3.2" /></svg>
+          </button>
+          <button type="button" data-tool="stroke-eraser" aria-pressed="false" title="Remove whole strokes (E)" aria-label="Stroke eraser">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18c3-10 6 2 9-5" /><path d="M15 5l5 5M20 5l-5 5" /></svg>
+          </button>
+          <button type="button" data-tool="scribble-eraser" aria-pressed="false" title="Scribble over writing to erase it (S)" aria-label="Scribble eraser">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 16l4-8 3 9 3-10 3 9 3-6" /></svg>
+          </button>
+          <button type="button" data-tool="pixel-eraser" aria-pressed="false" title="Pixel eraser: rub out part of a stroke (R)" aria-label="Pixel eraser">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 15.5L13.5 5a2 2 0 012.8 0l3.7 3.7a2 2 0 010 2.8L11 20.5H6.5L3 17z" /><path d="M9 11.5l5.5 5.5M11 20.5h9" /></svg>
+          </button>
+        </div>
+
+        <div class="group colors" role="group" aria-label="Pen colour">
+          <button id="color" type="button" aria-haspopup="true" aria-expanded="false" title="Pen colour (C)" aria-label="Pen colour">
+            <span id="color-dot" class="color-dot" aria-hidden="true"></span>
+          </button>
+          <div id="palette" class="palette" role="menu" aria-label="Pen colours" hidden>
+            <button type="button" role="menuitemradio" data-color="#1c2541" aria-label="Ink blue-black" title="Ink"></button>
+            <button type="button" role="menuitemradio" data-color="#111111" aria-label="Black" title="Black"></button>
+            <button type="button" role="menuitemradio" data-color="#1e63d6" aria-label="Blue" title="Blue"></button>
+            <button type="button" role="menuitemradio" data-color="#d23a2f" aria-label="Red" title="Red"></button>
+            <button type="button" role="menuitemradio" data-color="#7b3fc4" aria-label="Purple" title="Purple"></button>
+            <button type="button" role="menuitemradio" data-color="#c26a12" aria-label="Orange" title="Orange"></button>
+          </div>
+        </div>
+
+        <div class="group width" role="group" aria-label="Pen width">
+          <span id="width-dot" class="width-dot" aria-hidden="true"></span>
+          <input id="width" type="range" min="2" max="16" step="1" value="4" aria-label="Pen width" title="Pen width ( [ and ] )" />
+        </div>
+
+        <div class="group" role="group" aria-label="Display">
+          <button id="tidy" type="button" aria-pressed="false" title="Tidy: turn my writing into clean text once it is read (T)" aria-label="Tidy writing">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7V5h12v2" /><path d="M12 5v14" /><path d="M9 19h6" /></svg>
+          </button>
+          <button id="graphs" type="button" aria-pressed="false" title="Graphs: draw a graph for y = … and other equations (G)" aria-label="Draw graphs">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4v16h16" /><path d="M6 15c3-7 5-7 7-3s4 4 7-4" /></svg>
+          </button>
+          <div class="colors">
+            <button id="paper" type="button" aria-haspopup="true" aria-expanded="false" title="Paper: lines, boxes, dots or plain (B)" aria-label="Paper style">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2" /><path d="M7 8h10M7 12h10M7 16h10" /></svg>
+            </button>
+            <div id="papers" class="palette papers" role="menu" aria-label="Paper styles" hidden>
+              <button type="button" role="menuitemradio" data-paper="lines" title="Lines" aria-label="Lined paper"></button>
+              <button type="button" role="menuitemradio" data-paper="grid" title="Boxes" aria-label="Squared paper"></button>
+              <button type="button" role="menuitemradio" data-paper="dots" title="Dots" aria-label="Dotted paper"></button>
+              <button type="button" role="menuitemradio" data-paper="plain" title="Plain" aria-label="Plain paper"></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="group" role="group" aria-label="History">
+          <button id="undo" type="button" title="Undo (Ctrl+Z)" aria-label="Undo">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14L4 9l5-5" /><path d="M4 9h10.5a5.5 5.5 0 010 11H11" /></svg>
+          </button>
+          <button id="redo" type="button" title="Redo (Ctrl+Shift+Z)" aria-label="Redo">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 14l5-5-5-5" /><path d="M20 9H9.5a5.5 5.5 0 000 11H13" /></svg>
+          </button>
+          <button id="clear" type="button" title="Clear the page" aria-label="Clear">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M10 7V5h4v2M7 7l1 13h8l1-13" /></svg>
+          </button>
+        </div>
+      </header>
+
+      <main id="surface"></main>
+
+      <div id="hint" class="hint" aria-hidden="true">
+        <div class="hint-eq" id="hint-eq">√144 + 3² =</div>
+        <div class="hint-sub">Write a calculation by hand and finish with <b>=</b></div>
+        <div class="hint-more">Also try <b>x = 10</b> and below it <b>x + 5 =</b> &nbsp;·&nbsp; <b>2x + 4 = 10</b> &nbsp;·&nbsp; numbers stacked in a column with a line under them &nbsp;·&nbsp; turn on graphs and write <b>y = sin x</b></div>
+      </div>
+
+      <footer class="status" role="status" aria-live="polite">
+        <span id="status-dot" class="dot" data-tone="busy"></span>
+        <span id="status-text">Starting…</span>
+      </footer>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
