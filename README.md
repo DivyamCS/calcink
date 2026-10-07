@@ -10,7 +10,7 @@ A handwriting calculator that runs entirely in your browser. Write a calculation
 
 <br/>
 
-[![Live demo](https://img.shields.io/badge/Live_demo-Vercel-000000?logo=vercel&logoColor=white)](https://calcink-gamma.vercel.app/)
+[![Live demo](https://img.shields.io/badge/Live_demo-Vercel-000000?logo=vercel&logoColor=white)](https://calcink-five.vercel.app/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-5.4-646CFF?logo=vite&logoColor=white)](https://vitejs.dev)
 [![ONNX Runtime Web](https://img.shields.io/badge/ONNX_Runtime_Web-1.30-005CED?logo=onnx&logoColor=white)](https://github.com/microsoft/onnxruntime)
