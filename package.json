@@ -1,0 +1,38 @@
+{
+  "name": "calcink",
+  "version": "1.0.0",
+  "description": "Write a calculation by hand, end it with =, and the answer appears next to it. 100% client-side, works offline.",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "models": "node scripts/fetch-models.mjs --force",
+    "postinstall": "node scripts/copy-ort.mjs",
+    "predev": "node scripts/fetch-models.mjs",
+    "prebuild": "node scripts/fetch-models.mjs",
+    "test:e2e": "playwright test",
+    "test:all": "npm test && npm run build && npm run test:e2e"
+  },
+  "dependencies": {
+    "@fontsource/caveat": "5.3.0",
+    "onnxruntime-web": "1.30.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.56.1",
+    "@types/node": "20.19.43",
+    "ink-on": "0.1.0",
+    "typescript": "5.9.3",
+    "vite": "5.4.21",
+    "vite-plugin-pwa": "0.20.5",
+    "vitest": "2.1.9"
+  }
+}
