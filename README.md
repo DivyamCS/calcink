@@ -19,7 +19,7 @@ A handwriting calculator that runs entirely in your browser. Write a calculation
 [![Tests](https://img.shields.io/badge/Tests-428_unit_·_63_browser-6E9F18?logo=vitest&logoColor=white)](#testing)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-**[Open the live demo →](https://calcink-five.vercel.app/)** &nbsp;·&nbsp; [mirror](https://software-dev-bootcamp-prince-4vuw.vercel.app/) &nbsp;·&nbsp; [repository](https://github.com/DivyamCS/Software_dev_bootcamp)
+**[Open the live demo →](https://calcink-five.vercel.app/)** &nbsp;·&nbsp; [repository](https://github.com/DivyamCS/calcink)
 
 [PS checklist](#problem-statement-checklist) · [Features](#features) · [Architecture](#architecture) · [The model](#the-model) · [Quick start](#quick-start) · [Usage](#usage) · [Testing](#testing) · [Limitations](#limitations) · [Credits](#credits-and-licences)
 
@@ -143,7 +143,7 @@ flowchart LR
         INK -- "strokes" --> GEO --> LR --> WR
         WR -- "candidates" --> CH --> LR
         LR -- "LaTeX per line" --> SOLVE -- "Answer per line" --> APP
-        INK <-. "save / load" .-> STORE
+        APP <-. "save / load page" .-> STORE
     end
 
     subgraph WORKER["Web Worker · recognition/worker.ts"]
@@ -335,12 +335,12 @@ We did not train a model. CalcInk uses **CoMER** (*Modeling Coverage for Transfo
 
 ## Quick start
 
-**Easiest:** open the **[live demo](https://calcink-gamma.vercel.app/)** in Chrome, Edge, Firefox or Safari and wait for the status bar to say **Ready**. The first visit downloads about 22 MB (WASM runtime 14 MB + model 7.6 MB). After that it also works with the internet off.
+**Easiest:** open the **[live demo](https://calcink-five.vercel.app/)** in Chrome, Edge, Firefox or Safari and wait for the status bar to say **Ready**. The first visit downloads about 22 MB (WASM runtime 14 MB + model 7.6 MB). After that it also works with the internet off.
 
 **From source:** you need [Node.js](https://nodejs.org) 18 or newer. The model files are already in the repo.
 
 ```bash
-git clone https://github.com/DivyamCS/Software_dev_bootcamp.git calcink
+git clone https://github.com/DivyamCS/calcink.git
 cd calcink
 npm install        # also copies the WASM runtime into public/ort/
 npm run dev        # open http://localhost:5173
@@ -490,7 +490,7 @@ calcink/
 │   ├── feedback.ts               vibration when an answer lands
 │   ├── style.css
 │   ├── ink/
-│   │   ├── canvas.ts             pointer input, erasers, scrolling, HiDPI, save/load
+│   │   ├── canvas.ts             pointer input, erasers, scrolling, HiDPI
 │   │   ├── coords.ts             client → CSS px → page coordinates
 │   │   ├── geometry.ts           bounding boxes, hit tests, line grouping, column rules
 │   │   ├── history.ts            bounded undo/redo
