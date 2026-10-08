@@ -19,7 +19,9 @@ A handwriting calculator that runs entirely in your browser. Write a calculation
 [![Tests](https://img.shields.io/badge/Tests-428_unit_·_63_browser-6E9F18?logo=vitest&logoColor=white)](#testing)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-**[Open the live demo →](https://calcink-five.vercel.app/)** &nbsp;·&nbsp; [repository](https://github.com/DivyamCS/calcink)
+**[Open the live demo →](https://calcink-five.vercel.app/)** &nbsp;·&nbsp; [Demo video](VIDEO_LINK) &nbsp;·&nbsp; [Repository](https://github.com/DivyamCS/calcink)
+
+**Use Chrome or Edge on desktop.** Safari is not supported yet.
 
 [PS checklist](#problem-statement-checklist) · [Features](#features) · [Architecture](#architecture) · [The model](#the-model) · [Quick start](#quick-start) · [Usage](#usage) · [Testing](#testing) · [Limitations](#limitations) · [Credits](#credits-and-licences)
 
@@ -30,6 +32,10 @@ A handwriting calculator that runs entirely in your browser. Write a calculation
 ## Overview
 
 Built for the Inter IIT Bootcamp (IIT Guwahati Tech Board), Software PS Phase 1: *CalcInk: On-Device Handwritten Math Calculator*.
+
+**Demo video:** [watch the walkthrough](VIDEO_LINK)
+
+YOUR AI DECLARATION LINE
 
 CalcInk works like a page in a notebook. Write a sum by hand and finish it with `=`, and the answer appears beside it in a handwriting font. Fix a digit and the answer updates. Write `x = 10` on one line and `x + 5 =` below it, and you get `15`. Turn graphs on and `y = x² − 4` becomes a small graph with its roots marked. Reload the page and your work is still there.
 
@@ -335,7 +341,7 @@ We did not train a model. CalcInk uses **CoMER** (*Modeling Coverage for Transfo
 
 ## Quick start
 
-**Easiest:** open the **[live demo](https://calcink-five.vercel.app/)** in Chrome, Edge, Firefox or Safari and wait for the status bar to say **Ready**. The first visit downloads about 22 MB (WASM runtime 14 MB + model 7.6 MB). After that it also works with the internet off.
+**Easiest:** open the **[live demo](https://calcink-five.vercel.app/)** in Chrome or Edge (Safari is not supported) and wait for the status bar to say **Ready**. The first visit downloads about 22 MB (WASM runtime 14 MB + model 7.6 MB). After that it also works with the internet off.
 
 **From source:** you need [Node.js](https://nodejs.org) 18 or newer. The model files are already in the repo.
 
@@ -353,8 +359,8 @@ npm run dev        # open http://localhost:5173
 
 | | Windows | Mac |
 |---|---|---|
-| **Online** | Open the live demo in Chrome or Edge. Optional: click *Install* in the address bar. | Open the live demo in Safari or Chrome. Optional: Safari → File → *Add to Dock*. |
-| **Offline (from source)** | Install Node.js LTS (`.msi`) and Git. In **Command Prompt** or Git Bash, while online: `git clone …`, `cd calcink`, `npm install`, `npm run build`. Then, with the internet off: `npm run preview` and open http://localhost:4173. | Install Node.js LTS (`.pkg` or `brew install node`) and Git (`xcode-select --install`). In Terminal, while online: `git clone …`, `cd calcink`, `npm install`, `npm run build`. Then, with Wi-Fi off: `npm run preview` and open http://localhost:4173. |
+| **Online** | Open the live demo in Chrome or Edge. Optional: click *Install* in the address bar. | Open the live demo in Chrome (not Safari). Optional: click *Install* in the address bar. |
+| **Offline (from source)** | Install Node.js LTS (`.msi`) and Git. In **Command Prompt** or Git Bash, while online: `git clone …`, `cd calcink`, `npm install`, `npm run build`. Then, with the internet off: `npm run preview` and open http://localhost:4173 in Chrome or Edge. | Install Node.js LTS (`.pkg` or `brew install node`) and Git (`xcode-select --install`). In Terminal, while online: `git clone …`, `cd calcink`, `npm install`, `npm run build`. Then, with Wi-Fi off: `npm run preview` and open http://localhost:4173 in Chrome. |
 
 On Windows, if PowerShell says `npm` "cannot be loaded because running scripts is disabled", use Command Prompt or type `npm.cmd` instead.
 
@@ -395,7 +401,7 @@ On Windows, if PowerShell says `npm` "cannot be loaded because running scripts i
 
 ## Usage
 
-1. Wait for the status bar to say **Ready** (only the first visit downloads the model).
+1. Open the app in Chrome or Edge and wait for the status bar to say **Ready** (only the first visit downloads the model).
 2. Write a calculation and **end it with `=`**.
 3. Lift the pen. After a 0.8 s pause the line is read (about 0.8 s on a 2-core laptop) and the answer appears. A dotted underline means the model wasn't sure about a symbol.
 4. Edit freely: erase or rewrite a digit and the answer updates. Fill the page with as many lines as you like.
@@ -550,6 +556,7 @@ npm run test:all     # unit tests, build, browser tests
 - **No canvas zoom, and graphs are fixed pictures** with no pan or zoom (browser zoom works; the page scrolls sideways when needed).
 - **No export.** The page is kept in this browser only.
 - **Multi-threading needs COOP/COEP headers.** Without them it runs single-threaded.
+- **Safari is not supported.** Use Chrome or Edge (tested on Chromium). Firefox is untested.
 
 ---
 
