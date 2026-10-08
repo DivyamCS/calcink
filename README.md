@@ -19,7 +19,7 @@ A handwriting calculator that runs entirely in your browser. Write a calculation
 [![Tests](https://img.shields.io/badge/Tests-428_unit_·_63_browser-6E9F18?logo=vitest&logoColor=white)](#testing)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-**[Open the live demo ](https://calcink-five.vercel.app/)** &nbsp;·&nbsp; [Demo video](VIDEO_LINK) &nbsp;·&nbsp; [Repository](https://github.com/DivyamCS/calcink)
+**[Open the live demo ](https://calcink-five.vercel.app/)** &nbsp;·&nbsp; [Demo video](https://youtu.be/-Bgfdb1WbRI) &nbsp;·&nbsp; [Repository](https://github.com/DivyamCS/calcink)
 
 **Use Chrome or Edge on desktop.** Safari is not supported yet.
 
@@ -33,7 +33,7 @@ A handwriting calculator that runs entirely in your browser. Write a calculation
 
 Built for the Inter IIT Bootcamp (IIT Guwahati Tech Board), Software PS Phase 1: *CalcInk: On-Device Handwritten Math Calculator*.
 
-**Demo video:** [watch the walkthrough](VIDEO_LINK)
+**Demo video:** [watch the walkthrough](https://youtu.be/-Bgfdb1WbRI)
 
 CalcInk works like a page in a notebook. Write a sum by hand and finish it with `=`, and the answer appears beside it in a handwriting font. Fix a digit and the answer updates. Write `x = 10` on one line and `x + 5 =` below it, and you get `15`. Turn graphs on and `y = x² − 4` becomes a small graph with its roots marked. Reload the page and your work is still there.
 
