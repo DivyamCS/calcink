@@ -35,8 +35,6 @@ Built for the Inter IIT Bootcamp (IIT Guwahati Tech Board), Software PS Phase 1:
 
 **Demo video:** [watch the walkthrough](VIDEO_LINK)
 
-YOUR AI DECLARATION LINE
-
 CalcInk works like a page in a notebook. Write a sum by hand and finish it with `=`, and the answer appears beside it in a handwriting font. Fix a digit and the answer updates. Write `x = 10` on one line and `x + 5 =` below it, and you get `15`. Turn graphs on and `y = x² − 4` becomes a small graph with its roots marked. Reload the page and your work is still there.
 
 ```text
