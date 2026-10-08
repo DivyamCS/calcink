@@ -19,7 +19,7 @@ A handwriting calculator that runs entirely in your browser. Write a calculation
 [![Tests](https://img.shields.io/badge/Tests-428_unit_·_63_browser-6E9F18?logo=vitest&logoColor=white)](#testing)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-**[Open the live demo →](https://calcink-five.vercel.app/)** &nbsp;·&nbsp; [Demo video](VIDEO_LINK) &nbsp;·&nbsp; [Repository](https://github.com/DivyamCS/calcink)
+**[Open the live demo ](https://calcink-five.vercel.app/)** &nbsp;·&nbsp; [Demo video](VIDEO_LINK) &nbsp;·&nbsp; [Repository](https://github.com/DivyamCS/calcink)
 
 **Use Chrome or Edge on desktop.** Safari is not supported yet.
 
