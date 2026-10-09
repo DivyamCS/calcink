@@ -38,7 +38,7 @@ Built for the Inter IIT Bootcamp (IIT Guwahati Tech Board), Software PS Phase 1:
 CalcInk works like a page in a notebook. Write a sum by hand and finish it with `=`, and the answer appears beside it in a handwriting font. Fix a digit and the answer updates. Write `x = 10` on one line and `x + 5 =` below it, and you get `15`. Turn graphs on and `y = x² − 4` becomes a small graph with its roots marked. Reload the page and your work is still there.
 
 ```text
-18 + 4 × 3 =      30                 √144 + 3² =        21
+100 + 5 × 10 =      150                 √144 + 3² =        21
 9 ÷ 0 =           Undefined          2x + 4 = 10        x = 3
 x = 10                               x² − 5x + 6 = 0    x = 2, 3
 x + 5 =           15                 2x = 2x            true for every x
